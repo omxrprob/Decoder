@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Code Decoder</title>
+  <style>
+    body { font-family: sans-serif; background: #111; color: #0ff; padding: 2em; }
+    input, textarea { width: 100%; margin: 0.5em 0; padding: 0.5em; }
+    button { padding: 0.5em 1em; margin: 0.5em 0; }
+    .section { margin-bottom: 2em; }
+  </style>
+</head>
+<body>
+  <h1>🔍Code Decoder</h1>
+
+  <div class="section">
+    <h3>Decode a Code</h3>
+    <input id="codeInput" placeholder="Paste code like NB-bmV2ZXI=" />
+    <button onclick="decode()">Decode</button>
+    <p><strong>Decoded:</strong> <span id="decodedOutput"></span></p>
+  </div>
+
+  <div class="section">
+    <h3>Encode a Message</h3>
+    <input id="textInput" placeholder="Type text like 'never gonna give you up'" />
+    <button onclick="encode()">Encode</button>
+    <p><strong>Code:</strong> <span id="encodedOutput"></span></p>
+  </div>
+
+  <script>
+    function encode() {
+      const text = document.getElementById("textInput").value;
+      const encoded = btoa(text);
+      document.getElementById("encodedOutput").innerText = "NB-" + encoded;
+    }
+
+    function decode() {
+      const code = document.getElementById("codeInput").value;
+      if (!code.startsWith("NB-")) {
+        document.getElementById("decodedOutput").innerText = "Invalid code.";
+        return;
+      }
+      try {
+        const base64 = code.slice(3);
+        const decoded = atob(base64);
+        document.getElementById("decodedOutput").innerText = decoded;
+      } catch (e) {
+        document.getElementById("decodedOutput").innerText = "Invalid Base64 encoding.";
+      }
+    }
+  </script>
+</body>
+</html>
